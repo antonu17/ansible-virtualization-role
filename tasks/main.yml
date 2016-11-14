@@ -1,0 +1,19 @@
+---
+- name: install prerequisites
+  become: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - software-properties-common
+
+- name: install repository
+  become: yes
+  apt_repository: repo={{ item }} state=present
+  with_items:
+    - 'ppa:jacob/virtualisation'
+
+- name: install required software
+  become: yes
+  apt: pkg={{ item }} state=latest update_cache=true cache_valid_time=3600
+  with_items:
+    - wine
+    - virt-manager
